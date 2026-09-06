@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Palm92 LeaseGuard AI</title>
+  <style>
+    :root{font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:#eaf1fb;background:#08111f;--panel:#101b2ce8;--line:#253b5d;--muted:#9fb0ca;--soft:#15243a;--good:#1d5b46;--warn:#7b5e25;--bad:#6a2732;--accent:#eaf2ff;}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(circle at top left,#17365f 0,#0c1728 30%,#08111f 72%)}
+    main{max-width:1320px;margin:auto;padding:28px 18px 64px}.hero,.panel{background:var(--panel);border:1px solid var(--line);border-radius:22px;box-shadow:0 20px 55px #0005}.hero{padding:26px}.panel{padding:20px}.eyebrow{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:#9bc2ff;font-weight:800}.pills{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}.pill{padding:6px 10px;border-radius:999px;background:#1a2d49;color:#dce9fb;font-size:.86rem}h1{font-size:clamp(2.2rem,5vw,4.1rem);line-height:1;margin:.35rem 0 .7rem}h2{margin:.1rem 0 .8rem}h3{margin:.1rem 0 .5rem}.muted{color:var(--muted);line-height:1.6}.tagline{font-size:1.08rem;font-weight:750}.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:18px;margin-top:18px}.span4{grid-column:span 4}.span5{grid-column:span 5}.span6{grid-column:span 6}.span7{grid-column:span 7}.span8{grid-column:span 8}.span12{grid-column:span 12}@media(max-width:900px){.span4,.span5,.span6,.span7,.span8,.span12{grid-column:1/-1}}
+    .layer{min-height:190px}.layer ul{padding-left:18px;line-height:1.7;color:#c9d7ea}.status{padding:12px 14px;border-radius:13px;background:#091523;border:1px solid #294468;margin-top:10px}.good{border-color:#357158}.warn{border-color:#80632e}.bad{border-color:#8a3947}.metricrow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}@media(max-width:700px){.metricrow{grid-template-columns:repeat(2,1fr)}}.metric{background:#0a1625;border:1px solid #203958;border-radius:14px;padding:14px}.metric strong{display:block;font-size:1.35rem;margin-top:4px}.small{font-size:.86rem}.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}button,.button{border:0;border-radius:11px;padding:11px 14px;font-weight:800;cursor:pointer;text-decoration:none;display:inline-block}.primary{background:var(--accent);color:#08111f}.secondary{background:#273c5d;color:#fff}.danger{background:var(--bad);color:#fff}.success{background:var(--good);color:#fff}.ghost{background:transparent;border:1px solid #385276;color:#dfe9f8}pre{white-space:pre-wrap;word-break:break-word;background:#07101c;border:1px solid #223854;border-radius:14px;padding:16px;max-height:580px;overflow:auto}.connector{display:flex;justify-content:space-between;gap:12px;padding:12px 0;border-bottom:1px solid #203754}.connector:last-child{border-bottom:0}.connector b{display:block}.badge{font-size:.78rem;padding:4px 8px;border-radius:999px;background:#1e314b;color:#d9e6f8;white-space:nowrap}.flow{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:10px}.node{padding:9px 11px;border-radius:10px;background:#0a1728;border:1px solid #294564}.arrow{color:#7593ba}.footer{opacity:.6;text-align:center;margin-top:22px;font-size:.86rem}
+  </style>
+</head>
+<body>
+<main>
+  <section class="hero">
+    <div class="pills"><span class="pill">Palm92 Intelligence</span><span class="pill">Enterprise Controls</span><span class="pill">AI + Deterministic Rules</span><span class="pill">Human-in-the-loop</span></div>
+    <div class="eyebrow">Professional MVP</div>
+    <h1>Palm92 LeaseGuard AI</h1>
+    <p class="tagline">AI-powered Lease, Insurance & Financial Control Automation</p>
+    <p class="muted">A vendor-neutral control platform that turns lease, policy, invoice and evidence data into explainable reconciliations, risk findings, governed posting proposals and auditable human decisions.</p>
+    <div class="flow"><span class="node">Lease</span><span class="arrow">→</span><span class="node">Policy</span><span class="arrow">→</span><span class="node">Invoice</span><span class="arrow">→</span><span class="node">Evidence</span><span class="arrow">→</span><span class="node">Reconcile</span><span class="arrow">→</span><span class="node">Investigate</span><span class="arrow">→</span><span class="node">Approve</span><span class="arrow">→</span><span class="node">ERP handoff</span></div>
+    <div class="status warn"><strong>Portfolio boundary:</strong> synthetic data and adapter blueprints only. The MVP does not use live SAP, Oracle or Dynamics credentials and does not create production accounting entries.</div>
+    <div class="toolbar"><button class="primary" id="loadClean">Run clean case</button><button class="danger" id="loadRisky">Run risky case</button><button class="secondary" id="approve">Approve as independent reviewer</button><button class="ghost" id="selfApprove">Try maker self-approval</button><a class="button ghost" href="/">Back to Test Copilot</a></div>
+  </section>
+
+  <div class="grid">
+    <section class="panel span4 layer"><div class="eyebrow">Layer 1</div><h2>Operations</h2><p class="muted">The system of work.</p><ul><li>Lease management</li><li>Insurance policies</li><li>Invoices and renewals</li><li>Evidence records</li><li>Case lifecycle</li></ul></section>
+    <section class="panel span4 layer"><div class="eyebrow">Layer 2</div><h2>Intelligence</h2><p class="muted">The system of understanding.</p><ul><li>Document extraction</li><li>Matching and reconciliation</li><li>Anomaly detection</li><li>Variance analysis</li><li>AI investigation support</li></ul></section>
+    <section class="panel span4 layer"><div class="eyebrow">Layer 3</div><h2>Governance</h2><p class="muted">The system of control.</p><ul><li>Approval gates</li><li>Segregation of duties</li><li>Audit trail</li><li>Policy controls</li><li>Explainability</li></ul></section>
+
+    <section class="panel span7"><div class="eyebrow">Live case</div><h2>Control decision</h2><div class="metricrow"><div class="metric"><span class="small muted">Case</span><strong id="caseId">Not loaded</strong></div><div class="metric"><span class="small muted">Status</span><strong id="caseStatus">-</strong></div><div class="metric"><span class="small muted">Risk score</span><strong id="riskScore">-</strong></div><div class="metric"><span class="small muted">Blocking findings</span><strong id="blockers">-</strong></div></div><div id="summary" class="status">Choose a case to start the demonstration.</div><pre id="output">Palm92 LeaseGuard AI is ready.</pre></section>
+
+    <section class="panel span5"><div class="eyebrow">ERP portability</div><h2>Integration adapters</h2><p class="muted">LeaseGuard owns the control decision. ERP products become interchangeable execution backends.</p><div id="connectors"><div class="connector"><div><b>SAP S/4HANA</b><span class="muted small">OData / approved middleware</span></div><span class="badge">Blueprint</span></div><div class="connector"><div><b>Oracle Fusion Cloud ERP</b><span class="muted small">REST / Oracle Integration</span></div><span class="badge">Blueprint</span></div><div class="connector"><div><b>Microsoft Dynamics 365 Finance</b><span class="muted small">OData / Data entities</span></div><span class="badge">Blueprint</span></div><div class="connector"><div><b>Generic Finance API</b><span class="muted small">REST / webhook / CSV staging</span></div><span class="badge">Demo-ready</span></div></div></section>
+
+    <section class="panel span6"><div class="eyebrow">AI document intake</div><h2>Extract structured fields</h2><p class="muted">For the MVP, this deterministic parser demonstrates the contract. A production build can replace it with OCR/document AI while preserving the same review and control boundaries.</p><textarea id="docText" style="width:100%;min-height:150px;background:#07121f;color:#fff;border:1px solid #2d486b;border-radius:12px;padding:12px;font:inherit">Policy Number: POL-P92-2027-001
+Invoice Number: INV-INS-2027-001
+Premium: GBP 1200
+Coverage: 2027-01-01 to 2027-12-31</textarea><div class="toolbar"><button class="primary" id="extract">Extract fields</button></div><pre id="extractOut">No document extraction run yet.</pre></section>
+
+    <section class="panel span6"><div class="eyebrow">Professional control principle</div><h2>Decision architecture</h2><div class="status good"><strong>AI understands.</strong> Extracts and interprets unstructured documents.</div><div class="status good"><strong>Deterministic controls verify.</strong> Reconciles numbers, dates, duplicates, currency and evidence.</div><div class="status good"><strong>Humans authorise.</strong> Consequential ERP handoff remains approval-controlled and auditable.</div><p class="muted">This separation prevents an LLM from becoming the final authority on financial correctness.</p></section>
+  </div>
+
+  <p class="footer">Faith Wright · Palm92 Intelligence · LeaseGuard AI professional MVP</p>
+</main>
+<script src="/leaseguard.js"></script>
+</body>
+</html>
