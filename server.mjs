@@ -9,6 +9,14 @@ import {
   createEvidenceRecord,
   requestSensitiveAction
 } from './lib/engine.mjs';
+import {
+  analyzeFirefighterSession,
+  getSampleFirefighterSessions,
+  recordControllerDecision,
+  getFirefighterTraceability,
+  FIREFIGHTER_TEST_CASES,
+  FIREFIGHTER_MCP_CATALOG
+} from './lib/firefighter.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const publicDir = path.join(__dirname, 'public');
@@ -112,8 +120,36 @@ const server = http.createServer(async (req,res) => {
         ok:true,
         service:'palm92-ai-test-copilot',
         mode:process.env.OPENAI_API_KEY?'ai+deterministic-fallback':'deterministic-fallback',
-        governance:'human-in-the-loop'
+        governance:'human-in-the-loop',
+        firefighterModule:true
       }));
+    }
+
+    if (url.pathname === '/api/firefighter/bootstrap' && req.method === 'GET') {
+      return send(res,200,JSON.stringify({
+        sessions:getSampleFirefighterSessions(),
+        testCases:FIREFIGHTER_TEST_CASES,
+        traceability:getFirefighterTraceability(),
+        mcpCatalog:FIREFIGHTER_MCP_CATALOG,
+        disclaimer:'Independent educational portfolio demo. No live SAP connection. Synthetic data only.'
+      }));
+    }
+
+    if (url.pathname === '/api/firefighter/analyze' && req.method === 'POST') {
+      const body = await readJson(req);
+      const result = analyzeFirefighterSession(body);
+      return send(res,result.valid?200:400,JSON.stringify(result));
+    }
+
+    if (url.pathname === '/api/firefighter/decision' && req.method === 'POST') {
+      const body = await readJson(req);
+      const result = recordControllerDecision(body.session || {}, {
+        actor:body.actor,
+        action:body.action,
+        comment:body.comment,
+        confirmed:Boolean(body.confirmed)
+      });
+      return send(res,200,JSON.stringify(result));
     }
 
     if (url.pathname === '/api/analyze' && req.method === 'POST') {
