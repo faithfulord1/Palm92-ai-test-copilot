@@ -17,6 +17,14 @@ import {
   FIREFIGHTER_TEST_CASES,
   FIREFIGHTER_MCP_CATALOG
 } from './lib/firefighter.mjs';
+import {
+  analyzeInsuranceInvoice,
+  decideInsurancePosting,
+  REFX_SAMPLE_CONTRACT,
+  REFX_SAMPLE_INVOICES,
+  REFX_INSURANCE_TEST_CASES,
+  REFX_INSURANCE_RULES
+} from './lib/refx-insurance.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const publicDir = path.join(__dirname, 'public');
@@ -121,7 +129,8 @@ const server = http.createServer(async (req,res) => {
         service:'palm92-ai-test-copilot',
         mode:process.env.OPENAI_API_KEY?'ai+deterministic-fallback':'deterministic-fallback',
         governance:'human-in-the-loop',
-        firefighterModule:true
+        firefighterModule:true,
+        refxInsuranceModule:true
       }));
     }
 
@@ -148,6 +157,39 @@ const server = http.createServer(async (req,res) => {
         action:body.action,
         comment:body.comment,
         confirmed:Boolean(body.confirmed)
+      });
+      return send(res,200,JSON.stringify(result));
+    }
+
+    if (url.pathname === '/api/refx-insurance/sample' && req.method === 'POST') {
+      const body = await readJson(req);
+      const scenario = body.scenario === 'anomaly' ? 'anomaly' : 'clean';
+      return send(res,200,JSON.stringify({
+        contract:REFX_SAMPLE_CONTRACT,
+        invoice:REFX_SAMPLE_INVOICES[scenario],
+        scenario,
+        rules:REFX_INSURANCE_RULES,
+        testCases:REFX_INSURANCE_TEST_CASES,
+        disclaimer:'Synthetic educational data only. No live SAP connection.'
+      }));
+    }
+
+    if (url.pathname === '/api/refx-insurance/analyze' && req.method === 'POST') {
+      const body = await readJson(req);
+      const scenario = body.scenario === 'anomaly' ? 'anomaly' : 'clean';
+      const result = analyzeInsuranceInvoice({
+        contract:body.contract || REFX_SAMPLE_CONTRACT,
+        invoice:body.invoice || REFX_SAMPLE_INVOICES[scenario]
+      });
+      return send(res,200,JSON.stringify(result));
+    }
+
+    if (url.pathname === '/api/refx-insurance/decision' && req.method === 'POST') {
+      const body = await readJson(req);
+      const result = decideInsurancePosting(body.analysis, {
+        approved:Boolean(body.approved),
+        approver:body.approver || '',
+        comment:body.comment || ''
       });
       return send(res,200,JSON.stringify(result));
     }
