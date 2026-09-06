@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Palm92 LeaseGuard AI — Phase 2 Workspace</title>
+  <style>
+    :root{font-family:Inter,system-ui,sans-serif;color:#edf4ff;background:#07111f}*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#0b1730,#07111f 36%);min-height:100vh}main{max-width:1280px;margin:auto;padding:28px 18px 70px}.hero,.card{background:#101d32ee;border:1px solid #2b4164;border-radius:18px;padding:22px;box-shadow:0 18px 50px #0004}h1{font-size:clamp(2rem,5vw,3.5rem);margin:.3rem 0}h2,h3{margin-top:0}.muted{color:#a9bad4;line-height:1.5}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin-top:16px}.metrics{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:16px}.metric{background:#0b1728;border:1px solid #29405f;border-radius:14px;padding:14px}.metric strong{display:block;font-size:1.65rem;margin-top:5px}.pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#203650;margin:0 6px 6px 0}.status{padding:10px 12px;border-radius:11px;background:#081526;border:1px solid #2a4368;margin:8px 0}.ok{border-color:#34765b}.warn{border-color:#80652c}.bad{border-color:#8b3946}button,.button{border:0;border-radius:10px;padding:11px 14px;font-weight:800;cursor:pointer;margin:6px 5px 0 0;text-decoration:none;display:inline-block}.primary{background:#f4f8ff;color:#07111f}.secondary{background:#263955;color:#fff}.success{background:#1f5a45;color:#fff}.danger{background:#642a35;color:#fff}input,select,textarea{width:100%;background:#081526;color:#fff;border:1px solid #3a5278;border-radius:10px;padding:10px;margin:5px 0 9px;font:inherit}textarea{min-height:95px;resize:vertical}label{display:block;font-size:.88rem;color:#bac8da}table{width:100%;border-collapse:collapse;font-size:.9rem}th,td{text-align:left;padding:9px;border-bottom:1px solid #263a58;vertical-align:top}.scroll{overflow:auto}.event{border-left:3px solid #36577f;padding:9px 12px;margin:8px 0;background:#0a1626;border-radius:7px}pre{white-space:pre-wrap;word-break:break-word;background:#06101d;border:1px solid #263c5c;border-radius:12px;padding:14px;max-height:450px;overflow:auto}.small{font-size:.86rem}.watermark{text-align:center;opacity:.58;margin-top:24px}@media print{button,.button,input,select,textarea{display:none!important}body{background:#fff;color:#000}.card,.hero{box-shadow:none;border:1px solid #bbb;background:#fff}.muted{color:#444}}
+  </style>
+</head>
+<body>
+<main>
+  <section class="hero">
+    <span class="pill">Phase 2</span><span class="pill">Persistent cases</span><span class="pill">Document evidence</span><span class="pill">Renewals</span><span class="pill">Sandbox ERP</span>
+    <h1>Palm92 LeaseGuard AI</h1>
+    <p><strong>AI-powered Lease, Insurance & Financial Control Automation</strong></p>
+    <p class="muted">A persistent workspace for case management, document intake, evidence provenance, role-based decisions, renewal tracking and governed ERP handoff.</p>
+    <div class="status warn"><strong>Production boundary:</strong> this Phase 2 build persists data locally and stores uploaded files with SHA-256 provenance. PDF/image OCR is provider-ready but intentionally not faked. Production deployment should use PostgreSQL/Supabase, object storage and an approved OCR/document-AI service.</div>
+    <a class="button secondary" href="/leaseguard.html">Phase 1 control demo</a><a class="button secondary" href="/">Test Copilot home</a>
+  </section>
+
+  <section id="metrics" class="metrics"></section>
+
+  <div class="grid">
+    <section class="card">
+      <h2>1. Create persistent case</h2>
+      <label>Operations user</label><select id="createActor"></select>
+      <label>Case name / ID</label><input id="caseId" value="LG-PH2-001" />
+      <label>Property</label><input id="property" value="London Commercial Unit 04" />
+      <label>Tenant</label><input id="tenant" value="Northbridge Retail Ltd" />
+      <label>Lease dates</label><input id="leaseStart" value="2027-01-01" /><input id="leaseEnd" value="2029-12-31" />
+      <label>Policy number</label><input id="policyNumber" value="POL-P92-2027-001" />
+      <label>Annual premium</label><input id="premium" type="number" value="1200" />
+      <label>Invoice ID / amount</label><input id="invoiceId" value="INV-INS-2027-001" /><input id="invoiceAmount" type="number" value="1200" />
+      <button class="primary" id="createCase">Create case</button>
+    </section>
+
+    <section class="card">
+      <h2>2. Upload evidence</h2>
+      <label>Case</label><select id="uploadCase"></select>
+      <label>Operations user</label><select id="uploadActor"></select>
+      <label>Document type</label><select id="documentType"><option value="policy-schedule">Policy schedule</option><option value="invoice">Invoice</option><option value="supporting-evidence">Supporting evidence</option></select>
+      <label>PDF / image / text file</label><input id="file" type="file" accept="application/pdf,image/png,image/jpeg,image/webp,text/plain" />
+      <label>Optional extracted text for demo provenance</label><textarea id="suppliedText" placeholder="Example: Policy Number POL-P92-2027-001 Premium GBP 1200 Invoice INV-INS-2027-001"></textarea>
+      <button class="primary" id="upload">Upload document</button>
+      <div class="status"><strong>Why this matters:</strong> uploaded bytes are hashed. Extraction results are linked back to the exact document SHA-256 so a reviewer can trace where a value came from.</div>
+    </section>
+
+    <section class="card">
+      <h2>3. Assign and verify</h2>
+      <label>Case</label><select id="assignCase"></select>
+      <label>Reviewer</label><select id="reviewer"></select>
+      <label>Approver</label><select id="approver"></select>
+      <button class="secondary" id="assign">Assign roles</button>
+      <hr style="border-color:#2a3d59;border-width:1px 0 0;margin:18px 0" />
+      <label>Document</label><select id="verifyDoc"></select>
+      <label>Reviewer</label><select id="verifyActor"></select>
+      <button class="success" id="verify">Verify document</button>
+    </section>
+
+    <section class="card">
+      <h2>4. Analyse and approve</h2>
+      <label>Case</label><select id="analysisCase"></select>
+      <label>Reviewer</label><select id="analysisActor"></select>
+      <button class="primary" id="analyse">Run reconciliation</button>
+      <label style="margin-top:12px">Approver</label><select id="decisionActor"></select>
+      <label>Decision comment</label><textarea id="decisionComment">Reviewed evidence and control findings.</textarea>
+      <button class="success" id="approve">Approve for ERP handoff</button>
+      <button class="danger" id="reject">Do not approve</button>
+    </section>
+
+    <section class="card">
+      <h2>5. Renewal workflow</h2>
+      <label>Case</label><select id="renewalCase"></select>
+      <label>Operations user</label><select id="renewalActor"></select>
+      <label>Renewal date</label><input id="renewalDate" type="date" value="2027-12-01" />
+      <button class="primary" id="renewal">Create renewal task</button>
+      <div class="status ok">Renewals are persistent workflow records, not calendar decoration. They remain attached to the case and appear in dashboard metrics.</div>
+    </section>
+
+    <section class="card">
+      <h2>6. Sandbox ERP adapter</h2>
+      <label>Approved case</label><select id="erpCase"></select>
+      <label>Approver</label><select id="erpActor"></select>
+      <label>Adapter</label><select id="adapter"><option value="generic-rest">Generic REST sandbox</option><option value="sap-s4hana">SAP S/4HANA blueprint</option><option value="oracle-fusion">Oracle Fusion blueprint</option><option value="dynamics-365">Dynamics 365 blueprint</option></select>
+      <button class="success" id="handoff">Send to sandbox adapter</button>
+      <div class="status warn"><strong>No real posting:</strong> the sandbox generates an external reference and audit event only. Production credentials and posting APIs are deliberately excluded.</div>
+    </section>
+  </div>
+
+  <div class="grid">
+    <section class="card"><h2>Cases</h2><div class="scroll"><table><thead><tr><th>Case</th><th>Status</th><th>Property</th><th>Reviewer</th><th>Approver</th><th>Risk</th></tr></thead><tbody id="cases"></tbody></table></div></section>
+    <section class="card"><h2>Evidence & provenance</h2><div id="documents"></div></section>
+  </div>
+
+  <div class="grid">
+    <section class="card"><h2>Renewals</h2><div id="renewals"></div></section>
+    <section class="card"><h2>Audit trail</h2><div id="audit"></div></section>
+  </div>
+
+  <section class="card" style="margin-top:16px"><h2>Latest action result</h2><pre id="output">Workspace loading…</pre></section>
+  <p class="watermark">Palm92 Intelligence · LeaseGuard AI Phase 2 · Governed enterprise automation</p>
+</main>
+<script src="/leaseguard-phase2.js"></script>
+</body>
+</html>

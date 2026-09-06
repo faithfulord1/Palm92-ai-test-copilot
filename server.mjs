@@ -25,6 +25,25 @@ import {
   REFX_INSURANCE_TEST_CASES,
   REFX_INSURANCE_RULES
 } from './lib/refx-insurance.mjs';
+import {
+  getLeaseGuardBootstrap,
+  extractInsuranceDocument,
+  reconcileLeaseInsurance,
+  decideLeaseGuardCase,
+  LEASEGUARD_TEST_CASES
+} from './lib/leaseguard.mjs';
+import {
+  getLeaseGuardWorkspace,
+  createCase,
+  assignCase,
+  uploadDocument,
+  verifyDocument,
+  analysePersistentCase,
+  decidePersistentCase,
+  createRenewal,
+  sandboxErpHandoff,
+  resetLeaseGuardDemoData
+} from './lib/leaseguard-phase2.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const publicDir = path.join(__dirname, 'public');
@@ -54,7 +73,7 @@ async function readJson(req) {
   let raw='';
   for await (const chunk of req) {
     raw += chunk;
-    if (raw.length > 1_000_000) throw new Error('Request too large');
+    if (raw.length > 15_000_000) throw new Error('Request too large');
   }
   return raw ? JSON.parse(raw) : {};
 }
@@ -130,8 +149,78 @@ const server = http.createServer(async (req,res) => {
         mode:process.env.OPENAI_API_KEY?'ai+deterministic-fallback':'deterministic-fallback',
         governance:'human-in-the-loop',
         firefighterModule:true,
-        refxInsuranceModule:true
+        refxInsuranceModule:true,
+        leaseGuardModule:true,
+        leaseGuardPhase2:true
       }));
+    }
+
+    if (url.pathname === '/api/leaseguard/bootstrap' && req.method === 'GET') {
+      return send(res,200,JSON.stringify({ ...getLeaseGuardBootstrap(), testCases:LEASEGUARD_TEST_CASES }));
+    }
+
+    if (url.pathname === '/api/leaseguard/extract' && req.method === 'POST') {
+      const body = await readJson(req);
+      const rawText = String(body.rawText || '').slice(0,50000);
+      return send(res,200,JSON.stringify(extractInsuranceDocument(rawText)));
+    }
+
+    if (url.pathname === '/api/leaseguard/analyze' && req.method === 'POST') {
+      const body = await readJson(req);
+      return send(res,200,JSON.stringify(reconcileLeaseInsurance(body.caseData || body)));
+    }
+
+    if (url.pathname === '/api/leaseguard/decision' && req.method === 'POST') {
+      const body = await readJson(req);
+      return send(res,200,JSON.stringify(decideLeaseGuardCase(body.analysis, body.decision || {})));
+    }
+
+    if (url.pathname === '/api/leaseguard/workspace' && req.method === 'GET') {
+      return send(res,200,JSON.stringify(await getLeaseGuardWorkspace()));
+    }
+
+    if (url.pathname === '/api/leaseguard/cases' && req.method === 'POST') {
+      const body = await readJson(req);
+      return send(res,201,JSON.stringify(await createCase(body)));
+    }
+
+    if (url.pathname === '/api/leaseguard/cases/assign' && req.method === 'POST') {
+      const body = await readJson(req);
+      return send(res,200,JSON.stringify(await assignCase(body)));
+    }
+
+    if (url.pathname === '/api/leaseguard/documents' && req.method === 'POST') {
+      const body = await readJson(req);
+      return send(res,201,JSON.stringify(await uploadDocument(body)));
+    }
+
+    if (url.pathname === '/api/leaseguard/documents/verify' && req.method === 'POST') {
+      const body = await readJson(req);
+      return send(res,200,JSON.stringify(await verifyDocument(body)));
+    }
+
+    if (url.pathname === '/api/leaseguard/cases/analyse' && req.method === 'POST') {
+      const body = await readJson(req);
+      return send(res,200,JSON.stringify(await analysePersistentCase(body)));
+    }
+
+    if (url.pathname === '/api/leaseguard/cases/decide' && req.method === 'POST') {
+      const body = await readJson(req);
+      return send(res,200,JSON.stringify(await decidePersistentCase(body)));
+    }
+
+    if (url.pathname === '/api/leaseguard/renewals' && req.method === 'POST') {
+      const body = await readJson(req);
+      return send(res,201,JSON.stringify(await createRenewal(body)));
+    }
+
+    if (url.pathname === '/api/leaseguard/erp/sandbox' && req.method === 'POST') {
+      const body = await readJson(req);
+      return send(res,200,JSON.stringify(await sandboxErpHandoff(body)));
+    }
+
+    if (url.pathname === '/api/leaseguard/reset' && req.method === 'POST') {
+      return send(res,200,JSON.stringify(await resetLeaseGuardDemoData()));
     }
 
     if (url.pathname === '/api/firefighter/bootstrap' && req.method === 'GET') {
@@ -152,13 +241,12 @@ const server = http.createServer(async (req,res) => {
 
     if (url.pathname === '/api/firefighter/decision' && req.method === 'POST') {
       const body = await readJson(req);
-      const result = recordControllerDecision(body.session || {}, {
+      return send(res,200,JSON.stringify(recordControllerDecision(body.session || {}, {
         actor:body.actor,
         action:body.action,
         comment:body.comment,
         confirmed:Boolean(body.confirmed)
-      });
-      return send(res,200,JSON.stringify(result));
+      })));
     }
 
     if (url.pathname === '/api/refx-insurance/sample' && req.method === 'POST') {
@@ -186,12 +274,11 @@ const server = http.createServer(async (req,res) => {
 
     if (url.pathname === '/api/refx-insurance/decision' && req.method === 'POST') {
       const body = await readJson(req);
-      const result = decideInsurancePosting(body.analysis, {
+      return send(res,200,JSON.stringify(decideInsurancePosting(body.analysis, {
         approved:Boolean(body.approved),
         approver:body.approver || '',
         comment:body.comment || ''
-      });
-      return send(res,200,JSON.stringify(result));
+      })));
     }
 
     if (url.pathname === '/api/analyze' && req.method === 'POST') {
