@@ -1,0 +1,16 @@
+{
+  "name": "palm92-ai-test-copilot",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "scripts": {
+    "start": "node server.mjs",
+    "mcp": "node mcp/server.mjs",
+    "test": "node --test",
+    "check": "node scripts/check.mjs",
+    "ci": "npm run check && npm test"
+  },
+  "description": "Governed AI-assisted software testing workspace with MCP, evidence, traceability and human approval.",
+  "license": "MIT"
+}
