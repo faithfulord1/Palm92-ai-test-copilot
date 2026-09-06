@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Palm92 RE-FX Insurance Control Copilot</title>
+  <style>
+    :root{font-family:Inter,system-ui,sans-serif;color:#edf4ff;background:#07111f}
+    *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at top,#183864 0,#0b1728 35%,#07111f 72%);min-height:100vh}
+    main{max-width:1200px;margin:auto;padding:28px 18px 60px}.hero,.card{background:#101d32ed;border:1px solid #2b4164;border-radius:20px;padding:22px;box-shadow:0 18px 50px #0005}
+    h1{font-size:clamp(2rem,5vw,3.5rem);margin:.3rem 0}h2{margin-top:0}.muted{color:#a9bad4;line-height:1.55}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px;margin-top:18px}
+    .pill{display:inline-block;padding:6px 10px;margin:0 6px 6px 0;border-radius:999px;background:#1d304c}.status{padding:12px;border-radius:12px;background:#081526;border:1px solid #2a4368;margin-top:10px}.ok{border-color:#3d765e}.warn{border-color:#8a6a2f}.bad{border-color:#8b3946}
+    button,a.button{display:inline-block;border:0;border-radius:11px;padding:12px 15px;font-weight:800;cursor:pointer;margin:8px 7px 0 0;text-decoration:none}.primary{background:#f4f8ff;color:#07111f}.secondary{background:#273d5d;color:#fff}.danger{background:#642a35;color:#fff}.success{background:#215d46;color:#fff}
+    pre{white-space:pre-wrap;word-break:break-word;background:#06101d;border:1px solid #263c5c;border-radius:12px;padding:16px;max-height:520px;overflow:auto}.flow{font-weight:800;line-height:1.9}.small{font-size:.9rem}.watermark{opacity:.6;text-align:center;margin-top:20px}
+  </style>
+</head>
+<body>
+<main>
+  <section class="hero">
+    <span class="pill">SAP RE-FX case study</span><span class="pill">Insurance automation</span><span class="pill">AI + rules</span><span class="pill">Human approval</span>
+    <h1>RE-FX Insurance Control Copilot</h1>
+    <p class="muted">A governed portfolio demo showing how AI and deterministic controls can support commercial-lease insurance processing before anything is posted to SAP.</p>
+    <div class="status warn"><strong>Demo boundary:</strong> synthetic data only. This app does not connect to SAP or post accounting entries.</div>
+    <a class="button secondary" href="/">Back to Steve demo</a>
+  </section>
+
+  <div class="grid">
+    <section class="card">
+      <h2>1. Intake</h2>
+      <p class="muted">The system receives lease conditions, policy details, invoice values and evidence.</p>
+      <div class="flow">Lease → Policy → Invoice → Evidence</div>
+      <button class="primary" id="clean">Load clean invoice</button>
+      <button class="danger" id="anomaly">Load risky invoice</button>
+    </section>
+
+    <section class="card">
+      <h2>2. AI-assisted control review</h2>
+      <p class="muted">The copilot reconciles policy number, premium, dates, currency, duplicates and supporting evidence.</p>
+      <button class="primary" id="analyse">Analyse selected invoice</button>
+      <div id="summary" class="status">No analysis run yet.</div>
+    </section>
+
+    <section class="card">
+      <h2>3. Draft posting proposal</h2>
+      <p class="muted">When controls pass, the system prepares a draft debit/credit proposal and monthly accrual. It still does not post.</p>
+      <div class="status ok"><strong>Governance:</strong> preparation can be automated, final posting stays approval-controlled.</div>
+    </section>
+
+    <section class="card">
+      <h2>4. Human decision gate</h2>
+      <p class="muted">Try to approve the selected scenario. Risky cases remain blocked even if a human clicks approve.</p>
+      <button class="secondary" id="request">Request approval</button>
+      <button class="success" id="approve">Approve as Faith</button>
+    </section>
+  </div>
+
+  <section class="card" style="margin-top:18px">
+    <h2>Live evidence</h2>
+    <pre id="output">Select a clean or risky invoice to begin.</pre>
+  </section>
+
+  <p class="watermark">Faith Wright · Palm92 Intelligence · SAP RE-FX insurance testing and automation case study</p>
+</main>
+<script src="/refx-insurance.js"></script>
+</body>
+</html>
