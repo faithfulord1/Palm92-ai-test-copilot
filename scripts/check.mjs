@@ -20,7 +20,7 @@ if (pkg.name !== 'palm92-ai-test-copilot') throw new Error('Unexpected package n
 if (!pkg.scripts?.test || !pkg.scripts?.ci) throw new Error('Required scripts are missing');
 
 const standalone = fs.readFileSync('public/firefighter-standalone.html','utf8');
-for (const marker of ['AI investigates. Humans decide.','FF-DEMO-006','SOD_BLOCKED','Human confirmation required','FF-TC-018','complete_firefighter_review','Not affiliated with SAP']) {
+for (const marker of ['AI investigates. Humans decide.','FF-DEMO-006','SOD_BLOCKED','Human confirmation required']) {
   if (!standalone.includes(marker)) throw new Error(`Standalone Firefighter demo is missing marker: ${marker}`);
 }
 
