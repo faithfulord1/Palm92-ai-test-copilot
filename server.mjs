@@ -2,13 +2,25 @@ import http from 'node:http';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { analyzeRequirement, generateTestCases } from './lib/engine.mjs';
+import {
+  analyzeRequirement,
+  generateTestCases,
+  evaluatePhoneEquivalence,
+  createEvidenceRecord,
+  requestSensitiveAction
+} from './lib/engine.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const publicDir = path.join(__dirname, 'public');
 const port = Number(process.env.PORT || 3000);
 
-const types = { '.html':'text/html; charset=utf-8', '.css':'text/css; charset=utf-8', '.js':'text/javascript; charset=utf-8', '.json':'application/json; charset=utf-8', '.svg':'image/svg+xml' };
+const types = {
+  '.html':'text/html; charset=utf-8',
+  '.css':'text/css; charset=utf-8',
+  '.js':'text/javascript; charset=utf-8',
+  '.json':'application/json; charset=utf-8',
+  '.svg':'image/svg+xml'
+};
 
 function send(res, status, body, type='application/json; charset=utf-8') {
   res.writeHead(status, {
@@ -35,7 +47,9 @@ function extractResponseText(data) {
   if (typeof data?.output_text === 'string') return data.output_text;
   const texts=[];
   for (const item of data?.output || []) {
-    for (const content of item?.content || []) if (content?.type === 'output_text' && content.text) texts.push(content.text);
+    for (const content of item?.content || []) {
+      if (content?.type === 'output_text' && content.text) texts.push(content.text);
+    }
   }
   return texts.join('\n');
 }
@@ -56,30 +70,111 @@ async function tryOpenAI(text) {
   try { return JSON.parse(output); } catch { return { narrative: output }; }
 }
 
+function antonioDemo() {
+  const expected = '(5) 555-3932';
+  const actual = '555-3932';
+  const comparison = evaluatePhoneEquivalence(expected, actual);
+  const verdict = comparison.semanticMatch
+    ? comparison.exactFormatMatch ? 'PASS' : 'PASS_WITH_FORMAT_WARNING'
+    : 'FAIL';
+
+  const evidence = createEvidenceRecord({
+    correlationId:'STEVE-ANTON-001',
+    beforeState:{customerId:'ANTON',source:'Northwind OData',expectedPhone:expected},
+    action:'Route customer phone-number request to Northwind Agent and compare returned value with backend ground truth',
+    expected:'Agent returns Antonio Moreno phone number with semantically correct digits',
+    actual:`Agent returned ${actual}`,
+    afterState:{semanticMatch:comparison.semanticMatch,exactFormatMatch:comparison.exactFormatMatch,verdict},
+    verification:'Digits are semantically equivalent; formatting difference is recorded separately rather than treated as a false functional failure.',
+    environment:'Northwind demo',
+    tester:'Faith Wright',
+    approval:'Human review required for final test disposition'
+  });
+
+  return {
+    scenario:'Northwind Agent — Antonio phone-number validation',
+    requirement:'When asked for customer Antonio Moreno phone number, the routed customer agent must return a value grounded in the Northwind customer record.',
+    backendGroundTruth:{customerId:'ANTON',customer:'Antonio Moreno',phone:expected},
+    agentOutput:{phone:actual},
+    comparison,
+    verdict,
+    testingLesson:'Separate semantic correctness from exact presentation-format validation so normalization does not create a false functional failure.',
+    evidence
+  };
+}
+
 const server = http.createServer(async (req,res) => {
   try {
     const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
-    if (url.pathname === '/api/health') return send(res,200,JSON.stringify({ok:true,service:'palm92-ai-test-copilot',mode:process.env.OPENAI_API_KEY?'ai+fallback':'deterministic-fallback'}));
+
+    if (url.pathname === '/api/health') {
+      return send(res,200,JSON.stringify({
+        ok:true,
+        service:'palm92-ai-test-copilot',
+        mode:process.env.OPENAI_API_KEY?'ai+deterministic-fallback':'deterministic-fallback',
+        governance:'human-in-the-loop'
+      }));
+    }
+
     if (url.pathname === '/api/analyze' && req.method === 'POST') {
       const body = await readJson(req);
       const text = String(body.text || '').slice(0,20000);
       if (!text.trim()) return send(res,400,JSON.stringify({error:'Requirement text is required'}));
       let result;
-      try { result = await tryOpenAI(text); } catch (error) { result = null; }
+      try { result = await tryOpenAI(text); } catch { result = null; }
       if (result) return send(res,200,JSON.stringify({...result, mode:'ai-provider'}));
       return send(res,200,JSON.stringify(analyzeRequirement(text)));
     }
+
     if (url.pathname === '/api/tests' && req.method === 'POST') {
       const body = await readJson(req);
       const text = String(body.text || '').slice(0,20000);
       if (!text.trim()) return send(res,400,JSON.stringify({error:'Requirement text is required'}));
-      return send(res,200,JSON.stringify({tests:generateTestCases(text, body.requirementId || 'REQ-001'),mode:'deterministic-governed-generator'}));
+      return send(res,200,JSON.stringify({
+        tests:generateTestCases(text, body.requirementId || 'REQ-001'),
+        mode:'deterministic-governed-generator',
+        governance:'All generated tests remain Pending until a human reviews them.'
+      }));
     }
-    if (!['GET','HEAD'].includes(req.method)) return send(res,405,JSON.stringify({error:'Method not allowed'}));
+
+    if (url.pathname === '/api/demo/antonio' && ['GET','POST'].includes(req.method)) {
+      return send(res,200,JSON.stringify(antonioDemo()));
+    }
+
+    if (url.pathname === '/api/evidence' && req.method === 'POST') {
+      const body = await readJson(req);
+      return send(res,200,JSON.stringify(createEvidenceRecord({
+        correlationId:body.correlationId || 'STEVE-EVID-001',
+        beforeState:body.beforeState || {status:'test prepared'},
+        action:body.action || 'Execute governed test and capture outcome',
+        expected:body.expected || 'Expected result is satisfied',
+        actual:body.actual || 'Observed result recorded',
+        afterState:body.afterState || {status:'evidence captured'},
+        verification:body.verification || 'Human reviewer verifies evidence against requirement and test result',
+        environment:body.environment || 'demo',
+        tester:body.tester || 'Faith Wright',
+        approval:body.approval || 'Pending'
+      })));
+    }
+
+    if (url.pathname === '/api/sensitive-action' && req.method === 'POST') {
+      const body = await readJson(req);
+      return send(res,200,JSON.stringify(requestSensitiveAction({
+        action:body.action || 'Send customer data by email',
+        approved:Boolean(body.approved),
+        approver:body.approver || ''
+      })));
+    }
+
+    if (!['GET','HEAD'].includes(req.method)) {
+      return send(res,405,JSON.stringify({error:'Method not allowed'}));
+    }
+
     let rel = decodeURIComponent(url.pathname === '/' ? '/index.html' : url.pathname);
     rel = path.normalize(rel).replace(/^([.][.][/\\])+/, '');
     const file = path.join(publicDir, rel);
     if (!file.startsWith(publicDir)) return send(res,403,'Forbidden','text/plain');
+
     try {
       const content = await fs.readFile(file);
       if (req.method === 'HEAD') return send(res,200,'',types[path.extname(file)] || 'application/octet-stream');
@@ -90,7 +185,10 @@ const server = http.createServer(async (req,res) => {
       return send(res,200,app,types['.html']);
     }
   } catch (error) {
-    return send(res,500,JSON.stringify({error:'Unexpected server error',detail:process.env.NODE_ENV==='development'?error.message:undefined}));
+    return send(res,500,JSON.stringify({
+      error:'Unexpected server error',
+      detail:process.env.NODE_ENV==='development'?error.message:undefined
+    }));
   }
 });
 
