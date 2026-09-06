@@ -1,11 +1,12 @@
 import fs from 'node:fs';
 
 const required = [
-  'README.md','package.json','server.mjs','lib/engine.mjs','lib/firefighter.mjs','mcp/server.mjs','mcp/README.md',
-  'public/index.html','public/app.js','public/firefighter.html','public/firefighter-app.js','public/firefighter-standalone.html',
-  'tests/engine.test.mjs','tests/firefighter.test.mjs','docs/architecture.md','docs/demo-guide.md',
+  'README.md','package.json','server.mjs','lib/engine.mjs','lib/firefighter.mjs','lib/leaseguard.mjs','mcp/server.mjs','mcp/README.md',
+  'public/index.html','public/app.js','public/firefighter.html','public/firefighter.js','public/firefighter-standalone.html',
+  'public/leaseguard.html','public/leaseguard.js',
+  'tests/engine.test.mjs','tests/firefighter.test.mjs','tests/leaseguard.test.mjs','docs/architecture.md','docs/demo-guide.md',
   'docs/responsible-ai.md','docs/firefighter-case-study.md','docs/firefighter-steve-demo-script.md',
-  'docs/firefighter-linkedin-post.md','SECURITY.md','LICENSE','.github/workflows/ci.yml'
+  'docs/firefighter-linkedin-post.md','docs/leaseguard-professional-case-study.md','SECURITY.md','LICENSE','.github/workflows/ci.yml'
 ];
 
 const missing = required.filter((file) => !fs.existsSync(file));
@@ -35,6 +36,11 @@ const firefighterEngine = fs.readFileSync('lib/firefighter.mjs','utf8');
 for (let n = 1; n <= 8; n++) {
   const id = `FF-R${String(n).padStart(3,'0')}`;
   if (!firefighterEngine.includes(id)) throw new Error(`Missing Firefighter rule ${id}`);
+}
+
+const leaseguardEngine = fs.readFileSync('lib/leaseguard.mjs','utf8');
+for (const marker of ['Palm92 LeaseGuard AI','LG-R005','BLOCKED_BY_SOD','APPROVED_FOR_ERP_HANDOFF']) {
+  if (!leaseguardEngine.includes(marker)) throw new Error(`LeaseGuard engine is missing marker: ${marker}`);
 }
 
 console.log('Static repository checks passed.');
