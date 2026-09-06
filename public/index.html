@@ -3,50 +3,65 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Palm92 AI Test Copilot</title>
+  <title>Palm92 AI Test Copilot — Steve Demo</title>
   <style>
-    :root{font-family:Inter,system-ui,sans-serif;color:#e8eef8;background:#08111f}
-    body{margin:0;background:linear-gradient(180deg,#08111f,#101a2d);min-height:100vh}
-    main{max-width:1080px;margin:auto;padding:40px 20px}
-    .hero,.card{background:#111c31;border:1px solid #26344f;border-radius:18px;padding:24px;box-shadow:0 18px 50px #0004}
-    h1{margin-top:0;font-size:clamp(2rem,5vw,3.5rem)}
-    .tag{font-weight:700;color:#d9e6ff}.muted{color:#9fb0cb}
-    textarea{width:100%;min-height:180px;box-sizing:border-box;background:#091423;color:#fff;border:1px solid #34445f;border-radius:12px;padding:14px;font:inherit}
-    button{border:0;border-radius:10px;padding:12px 16px;font-weight:700;cursor:pointer;margin:10px 8px 0 0}
-    button.primary{background:#eef4ff;color:#0b1424}button.secondary{background:#24324b;color:#fff}
-    pre{white-space:pre-wrap;word-break:break-word;background:#08111f;border-radius:12px;padding:16px;overflow:auto}
-    .grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));margin-top:18px}
-    .pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#1c2940;color:#dbe7ff;margin-right:6px}
+    :root{font-family:Inter,system-ui,sans-serif;color:#e8eef8;background:#07111f}
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at top,#17325c 0,#0b1728 32%,#07111f 70%);min-height:100vh}
+    main{max-width:1180px;margin:auto;padding:32px 18px 60px}.hero,.card{background:#101d32e8;border:1px solid #2b4164;border-radius:20px;padding:24px;box-shadow:0 18px 50px #0005}
+    h1{margin:.25rem 0;font-size:clamp(2rem,5vw,3.7rem)}h2{margin-top:0}.tag{font-weight:800;color:#dbe9ff}.muted{color:#a6b7d2;line-height:1.55}
+    textarea{width:100%;min-height:155px;background:#081526;color:#fff;border:1px solid #3a5278;border-radius:12px;padding:14px;font:inherit;resize:vertical}
+    button{border:0;border-radius:11px;padding:12px 15px;font-weight:800;cursor:pointer;margin:8px 7px 0 0}.primary{background:#f4f8ff;color:#0a1424}.secondary{background:#263955;color:#fff}.danger{background:#5d2330;color:#fff}.success{background:#1f5a45;color:#fff}
+    pre{white-space:pre-wrap;word-break:break-word;background:#07111f;border:1px solid #223654;border-radius:12px;padding:16px;overflow:auto;max-height:460px}.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:18px}.pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#1b2b45;color:#dbe7ff;margin:0 6px 6px 0}.step{font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;color:#8eb3eb}.status{padding:10px 12px;border-radius:12px;background:#0b1728;border:1px solid #29405f;margin:8px 0}.ok{border-color:#34765b}.warn{border-color:#80652c}.watermark{opacity:.58;text-align:center;margin-top:20px;font-size:.85rem}.callout{border-left:4px solid #9fbfff;padding:12px 14px;background:#0b1728;border-radius:8px;margin-top:14px}
   </style>
 </head>
 <body>
 <main>
   <section class="hero">
-    <span class="pill">Palm92 Intelligence</span><span class="pill">Human-governed AI testing</span>
+    <span class="pill">Palm92 Intelligence</span><span class="pill">AI Testing</span><span class="pill">MCP</span><span class="pill">Human-in-the-loop</span>
     <h1>Palm92 AI Test Copilot</h1>
     <p class="tag">AI accelerates testing. Humans control quality decisions.</p>
-    <p class="muted">Analyse requirements, generate governed test drafts, inspect risks and preserve evidence without silently converting AI output into human approval.</p>
+    <p class="muted">A governed QA workspace for requirements analysis, test generation, AI-agent validation, evidence capture and approval-controlled actions.</p>
+    <div class="callout"><strong>Steve demo path:</strong> Requirement → Test drafts → Agent validation → Evidence → Human approval gate.</div>
   </section>
 
   <div class="grid">
     <section class="card">
-      <h2>Requirement analysis</h2>
+      <div class="step">Proof point 1</div><h2>Requirement → test design</h2>
       <textarea id="req">A customer must log in using email, password and MFA before accessing their account. Sensitive profile changes require explicit confirmation and an audit record.</textarea>
       <button class="primary" id="analyse">Analyse requirement</button>
       <button class="secondary" id="generate">Generate test drafts</button>
+      <p class="muted">Generated tests stay <strong>Pending</strong> until reviewed by a human tester.</p>
     </section>
+
     <section class="card">
-      <h2>Governance status</h2>
-      <p><strong>AI-generated test status:</strong> Pending</p>
-      <p><strong>Sensitive MCP actions:</strong> Human approval required</p>
-      <p><strong>Evidence:</strong> Correlation ID + before/action/after + verification + approval</p>
+      <div class="step">Proof point 2</div><h2>AI-agent validation</h2>
+      <p class="muted">Northwind demo: customer Antonio Moreno has backend phone <code>(5) 555-3932</code>; the agent returns <code>555-3932</code>.</p>
+      <button class="primary" id="antonio">Run Antonio agent test</button>
+      <div class="status warn"><strong>What this proves:</strong> semantic equivalence can pass while exact presentation-format validation still raises a warning.</div>
+    </section>
+
+    <section class="card">
+      <div class="step">Proof point 3</div><h2>Evidence & traceability</h2>
+      <p class="muted">Capture correlation ID, before state, action, expected/actual result, after state, verification and approval.</p>
+      <button class="secondary" id="evidence">Create evidence record</button>
+      <div class="status ok">Evidence is designed so another tester or auditor can reconstruct what happened.</div>
+    </section>
+
+    <section class="card">
+      <div class="step">Proof point 4</div><h2>Governed MCP action</h2>
+      <p class="muted">A sensitive action must not execute merely because an AI agent recommends it.</p>
+      <button class="danger" id="blocked">Try without approval</button>
+      <button class="success" id="approved">Approve as Faith</button>
+      <div class="status"><strong>Design rule:</strong> AI may prepare. Humans approve consequential actions.</div>
     </section>
   </div>
 
   <section class="card" style="margin-top:18px">
-    <h2>Result</h2>
-    <pre id="output">Choose an action to begin.</pre>
+    <h2>Live result</h2>
+    <pre id="output">Choose a proof point to begin.</pre>
   </section>
+
+  <p class="watermark">Faith Wright · Palm92 Intelligence · Steve / TestingElearn demonstration build</p>
 </main>
 <script src="/app.js"></script>
 </body>
