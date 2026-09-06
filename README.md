@@ -19,7 +19,7 @@ The product supports requirement analysis, structured test generation, human app
 - SAP RE-FX commercial lease insurance pre-posting control and approval workflow
 - Palm92 LeaseGuard AI persistent lease, insurance and financial-control workspace
 
-## Palm92 LeaseGuard AI — Phase 2
+## Palm92 LeaseGuard AI - Phase 2
 
 Open `/leaseguard-phase2.html` after starting the app.
 
@@ -147,7 +147,7 @@ This runs static project checks and Node's built-in test suite, including Firefi
 - `docs/demo-guide.md`
 - `docs/responsible-ai.md`
 - `docs/firefighter-case-study.md`
-- `docs/leaseguard-professional-case-study.md`
+- `docs/leaseguard-case-study.md`
 - `docs/leaseguard-phase2.md`
 
 ## Deployment
