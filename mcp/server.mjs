@@ -2,6 +2,7 @@
 import readline from 'node:readline';
 import { analyzeRequirement, generateTestCases, evaluatePhoneEquivalence, createEvidenceRecord, requestSensitiveAction } from '../lib/engine.mjs';
 import { analyzeFirefighterSession, getSampleFirefighterSessions, recordControllerDecision, getFirefighterTraceability } from '../lib/firefighter.mjs';
+import { getLeaseGuardBootstrap, extractInsuranceDocument, reconcileLeaseInsurance, decideLeaseGuardCase } from '../lib/leaseguard.mjs';
 
 const tools = [
   {name:'analyze_requirement',description:'Analyse a software or AI requirement without inventing missing facts.'},
@@ -12,7 +13,11 @@ const tools = [
   {name:'analyse_firefighter_session',description:'Run explainable deterministic SAP GRC Firefighter-style control checks on synthetic session data.'},
   {name:'get_firefighter_demo_sessions',description:'Return synthetic Firefighter sessions for portfolio demonstrations.'},
   {name:'get_firefighter_traceability',description:'Return requirement-to-control-to-test traceability for the Firefighter demo.'},
-  {name:'record_controller_decision',description:'Record a Controller action. Final completion requires explicit human confirmation and blocks self-review.'}
+  {name:'record_controller_decision',description:'Record a Controller action. Final completion requires explicit human confirmation and blocks self-review.'},
+  {name:'leaseguard_bootstrap',description:'Return Palm92 LeaseGuard AI layers, rules, sample cases and ERP adapter blueprints.'},
+  {name:'leaseguard_extract_document',description:'Extract draft policy, invoice, amount, currency and date fields from insurance text. Human validation remains required.'},
+  {name:'leaseguard_reconcile_case',description:'Reconcile lease, policy, invoice and evidence data using explainable deterministic controls.'},
+  {name:'leaseguard_decide_case',description:'Apply approval, segregation-of-duties and control-blocker rules before an ERP handoff can be approved.'}
 ];
 
 function respond(id,result){ process.stdout.write(JSON.stringify({jsonrpc:'2.0',id,result})+'\n'); }
@@ -20,7 +25,7 @@ function error(id,message){ process.stdout.write(JSON.stringify({jsonrpc:'2.0',i
 
 async function handle(msg){
   const {id,method,params={}} = msg;
-  if(method==='initialize') return respond(id,{protocolVersion:'2025-06-18',capabilities:{tools:{}},serverInfo:{name:'palm92-ai-test-copilot',version:'0.2.0'}});
+  if(method==='initialize') return respond(id,{protocolVersion:'2025-06-18',capabilities:{tools:{}},serverInfo:{name:'palm92-ai-test-copilot',version:'0.3.0'}});
   if(method==='tools/list') return respond(id,{tools:tools.map(t=>({...t,inputSchema:{type:'object',additionalProperties:true}}))});
   if(method==='tools/call'){
     const name=params.name; const a=params.arguments||{};
@@ -35,6 +40,10 @@ async function handle(msg){
       else if(name==='get_firefighter_demo_sessions') data={sessions:getSampleFirefighterSessions()};
       else if(name==='get_firefighter_traceability') data={traceability:getFirefighterTraceability()};
       else if(name==='record_controller_decision') data=recordControllerDecision(a.session || {}, {actor:a.actor,action:a.action,comment:a.comment,confirmed:Boolean(a.confirmed)});
+      else if(name==='leaseguard_bootstrap') data=getLeaseGuardBootstrap();
+      else if(name==='leaseguard_extract_document') data=extractInsuranceDocument(a.rawText || a.text || '');
+      else if(name==='leaseguard_reconcile_case') data=reconcileLeaseInsurance(a.caseData || a);
+      else if(name==='leaseguard_decide_case') data=decideLeaseGuardCase(a.analysis, a.decision || a);
       else throw new Error('Unknown tool');
       return respond(id,{content:[{type:'text',text:JSON.stringify(data,null,2)}],structuredContent:data});
     }catch(e){return error(id,e.message)}
