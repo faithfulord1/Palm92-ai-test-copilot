@@ -15,6 +15,34 @@ The product supports requirement analysis, structured test generation, human app
 - Motor insurance claim intake and AI classification
 - SAP-style purchase-to-pay / supplier invoice workflow
 - Northwind multi-agent customer lookup with exact-versus-semantic phone-number evaluation for ANTON / Antonio Moreno
+- SAP GRC Firefighter-style emergency-access review and control testing
+
+## SAP GRC Firefighter Review Copilot
+
+Open `/firefighter.html` after starting the app.
+
+This independent educational module uses synthetic data to demonstrate controlled emergency privileged access. It does not connect to a live SAP environment and does not claim official SAP affiliation.
+
+The module provides:
+
+- six synthetic emergency-access sessions;
+- explainable deterministic control findings with stable rule IDs `FF-R001` to `FF-R008`;
+- reason-code, incident/ticket, approved-window, sensitive-action, scope-mismatch, additional-activity, repeated-access and segregation-of-duties checks;
+- Controller questions grounded in the exact finding evidence;
+- explicit human confirmation before final review completion;
+- self-review blocking for final completion;
+- an audit timeline of Controller actions;
+- 18 practical software test cases;
+- requirement → control → rule → test traceability;
+- a future-facing MCP catalogue and working MCP tools for Firefighter analysis and governed Controller decisions;
+- a printable Controller Review Report;
+- interview talking points for software-testing, GRC and SAP-security discussions.
+
+The core design principle is:
+
+**AI investigates. Humans decide.**
+
+See `docs/firefighter-case-study.md` for the portfolio narrative and interview use.
 
 ## Core governance design
 
@@ -23,7 +51,8 @@ The product supports requirement analysis, structured test generation, human app
 - Evidence records capture correlation ID, before state, action, expected/actual, after state, verification, environment, tester and approval.
 - Northwind evaluation accepts `555-3932` as semantically equivalent to `(5) 555-3932` while still exposing the exact-format mismatch.
 - Sensitive MCP actions are blocked until explicit human approval is supplied.
-- Final quality and release decisions remain human decisions.
+- Firefighter review completion requires explicit human confirmation and is blocked when the Firefighter user attempts to complete their own review.
+- Final quality, release and control decisions remain human decisions.
 
 ## Run locally
 
@@ -41,9 +70,11 @@ No package installation is required for the core demo.
 
 The application works without an AI key through a deterministic fallback. To enable server-side AI requirement analysis, copy `.env.example` values into your environment and set `OPENAI_API_KEY`. Do not place secrets in browser code or commit them to Git.
 
+The Firefighter rules engine deliberately remains deterministic and explainable in the demo. AI can be added for summarisation or drafting, but the control findings and human decision boundary should remain transparent.
+
 ## MCP
 
-A minimal no-dependency stdio MCP-compatible server is included in `mcp/server.mjs`. It supports analysis, draft test generation, Northwind semantic evaluation, evidence records, reports and a governed sensitive-action request.
+A minimal no-dependency stdio MCP-compatible server is included in `mcp/server.mjs`. It supports analysis, draft test generation, Northwind semantic evaluation, evidence records, reports, governed sensitive-action requests and Firefighter review tools.
 
 See `mcp/README.md`.
 
@@ -53,13 +84,14 @@ See `mcp/README.md`.
 npm run ci
 ```
 
-This runs static project checks and Node's built-in test suite.
+This runs static project checks and Node's built-in test suite, including Firefighter governance tests.
 
 ## Architecture and demo
 
 - `docs/architecture.md`
 - `docs/demo-guide.md`
 - `docs/responsible-ai.md`
+- `docs/firefighter-case-study.md`
 
 ## Deployment
 
