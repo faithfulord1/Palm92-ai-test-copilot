@@ -1,4 +1,4 @@
-# Palm92 AI Test Copilot
+# palm92-ai-test-copilot
 
 **AI accelerates testing. Humans control quality decisions.**
 
