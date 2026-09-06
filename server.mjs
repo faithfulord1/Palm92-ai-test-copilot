@@ -25,6 +25,13 @@ import {
   REFX_INSURANCE_TEST_CASES,
   REFX_INSURANCE_RULES
 } from './lib/refx-insurance.mjs';
+import {
+  getLeaseGuardBootstrap,
+  extractInsuranceDocument,
+  reconcileLeaseInsurance,
+  decideLeaseGuardCase,
+  LEASEGUARD_TEST_CASES
+} from './lib/leaseguard.mjs';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const publicDir = path.join(__dirname, 'public');
@@ -130,8 +137,34 @@ const server = http.createServer(async (req,res) => {
         mode:process.env.OPENAI_API_KEY?'ai+deterministic-fallback':'deterministic-fallback',
         governance:'human-in-the-loop',
         firefighterModule:true,
-        refxInsuranceModule:true
+        refxInsuranceModule:true,
+        leaseGuardModule:true
       }));
+    }
+
+    if (url.pathname === '/api/leaseguard/bootstrap' && req.method === 'GET') {
+      return send(res,200,JSON.stringify({
+        ...getLeaseGuardBootstrap(),
+        testCases:LEASEGUARD_TEST_CASES
+      }));
+    }
+
+    if (url.pathname === '/api/leaseguard/extract' && req.method === 'POST') {
+      const body = await readJson(req);
+      const rawText = String(body.rawText || '').slice(0,50000);
+      return send(res,200,JSON.stringify(extractInsuranceDocument(rawText)));
+    }
+
+    if (url.pathname === '/api/leaseguard/analyze' && req.method === 'POST') {
+      const body = await readJson(req);
+      const result = reconcileLeaseInsurance(body.caseData || body);
+      return send(res,200,JSON.stringify(result));
+    }
+
+    if (url.pathname === '/api/leaseguard/decision' && req.method === 'POST') {
+      const body = await readJson(req);
+      const result = decideLeaseGuardCase(body.analysis, body.decision || {});
+      return send(res,200,JSON.stringify(result));
     }
 
     if (url.pathname === '/api/firefighter/bootstrap' && req.method === 'GET') {
