@@ -6,7 +6,7 @@ const required = [
   'public/leaseguard.html','public/leaseguard.js','public/leaseguard-phase2.html','public/leaseguard-phase2.js',
   'tests/engine.test.mjs','tests/firefighter.test.mjs','tests/leaseguard.test.mjs','tests/leaseguard-phase2.test.mjs','docs/architecture.md','docs/demo-guide.md',
   'docs/responsible-ai.md','docs/firefighter-case-study.md','docs/firefighter-steve-demo-script.md',
-  'docs/firefighter-linkedin-post.md','docs/leaseguard-professional-case-study.md','docs/leaseguard-phase2.md','SECURITY.md','LICENSE','.github/workflows/ci.yml'
+  'docs/firefighter-linkedin-post.md','docs/leaseguard-case-study.md','docs/leaseguard-phase2.md','SECURITY.md','LICENSE','.github/workflows/ci.yml'
 ];
 
 const missing = required.filter((file) => !fs.existsSync(file));
