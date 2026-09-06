@@ -16,6 +16,34 @@ The product supports requirement analysis, structured test generation, human app
 - SAP-style purchase-to-pay / supplier invoice workflow
 - Northwind multi-agent customer lookup with exact-versus-semantic phone-number evaluation for ANTON / Antonio Moreno
 - SAP GRC Firefighter-style emergency-access review and control testing
+- SAP RE-FX commercial lease insurance pre-posting control and approval workflow
+
+## SAP RE-FX Insurance Control Copilot
+
+Open `/refx-insurance.html` after starting the app.
+
+This independent educational module turns a commercial lease insurance scenario into a governed AI-assisted automation and testing case study. It uses synthetic data and does not connect to a live SAP system.
+
+The demo flow is:
+
+**Lease → Policy → Invoice → Evidence → Automated reconciliation → Risk findings → Draft posting proposal → Human approval → Approved SAP interface handoff**
+
+The module checks:
+
+- policy-number consistency;
+- contract and invoice currency;
+- configured annual premium versus invoice amount;
+- coverage-period consistency;
+- duplicate invoice risk;
+- required supporting evidence;
+- posting date against lease term;
+- explicit human approval before a posting can be released.
+
+It provides both a clean scenario and a deliberately risky scenario. The risky case contains a premium variance, a potential duplicate invoice and incomplete evidence so the control engine visibly blocks the posting path.
+
+A successful control review produces only a **draft posting proposal**. The demo deliberately separates automated preparation from execution. A human must explicitly approve a clean proposal, while high or critical findings cannot be overridden simply by clicking approve.
+
+This is designed to show Steve / TestingElearn how one AI-assisted testing architecture can extend into enterprise SAP-style financial processes while keeping deterministic controls, auditability and human accountability.
 
 ## SAP GRC Firefighter Review Copilot
 
@@ -52,6 +80,8 @@ See `docs/firefighter-case-study.md` for the portfolio narrative and interview u
 - Northwind evaluation accepts `555-3932` as semantically equivalent to `(5) 555-3932` while still exposing the exact-format mismatch.
 - Sensitive MCP actions are blocked until explicit human approval is supplied.
 - Firefighter review completion requires explicit human confirmation and is blocked when the Firefighter user attempts to complete their own review.
+- RE-FX insurance automation may analyse, reconcile and prepare a draft posting, but final release requires a named human approver.
+- High and critical RE-FX insurance findings block approval until resolved.
 - Final quality, release and control decisions remain human decisions.
 
 ## Run locally
@@ -70,7 +100,7 @@ No package installation is required for the core demo.
 
 The application works without an AI key through a deterministic fallback. To enable server-side AI requirement analysis, copy `.env.example` values into your environment and set `OPENAI_API_KEY`. Do not place secrets in browser code or commit them to Git.
 
-The Firefighter rules engine deliberately remains deterministic and explainable in the demo. AI can be added for summarisation or drafting, but the control findings and human decision boundary should remain transparent.
+The Firefighter and RE-FX financial control findings deliberately remain deterministic and explainable in the demo. AI can be added for extraction, summarisation and drafting, while posting controls and human decision boundaries remain transparent.
 
 ## MCP
 
@@ -84,7 +114,7 @@ See `mcp/README.md`.
 npm run ci
 ```
 
-This runs static project checks and Node's built-in test suite, including Firefighter governance tests.
+This runs static project checks and Node's built-in test suite, including Firefighter and RE-FX insurance governance tests.
 
 ## Architecture and demo
 
