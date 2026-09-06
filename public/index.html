@@ -10,7 +10,7 @@
     main{max-width:1180px;margin:auto;padding:32px 18px 60px}.hero,.card{background:#101d32e8;border:1px solid #2b4164;border-radius:20px;padding:24px;box-shadow:0 18px 50px #0005}
     h1{margin:.25rem 0;font-size:clamp(2rem,5vw,3.7rem)}h2{margin-top:0}.tag{font-weight:800;color:#dbe9ff}.muted{color:#a6b7d2;line-height:1.55}
     textarea{width:100%;min-height:155px;background:#081526;color:#fff;border:1px solid #3a5278;border-radius:12px;padding:14px;font:inherit;resize:vertical}
-    button{border:0;border-radius:11px;padding:12px 15px;font-weight:800;cursor:pointer;margin:8px 7px 0 0}.primary{background:#f4f8ff;color:#0a1424}.secondary{background:#263955;color:#fff}.danger{background:#5d2330;color:#fff}.success{background:#1f5a45;color:#fff}
+    button,.button{display:inline-block;border:0;border-radius:11px;padding:12px 15px;font-weight:800;cursor:pointer;margin:8px 7px 0 0;text-decoration:none}.primary{background:#f4f8ff;color:#0a1424}.secondary{background:#263955;color:#fff}.danger{background:#5d2330;color:#fff}.success{background:#1f5a45;color:#fff}
     pre{white-space:pre-wrap;word-break:break-word;background:#07111f;border:1px solid #223654;border-radius:12px;padding:16px;overflow:auto;max-height:460px}.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:18px}.pill{display:inline-block;padding:6px 10px;border-radius:999px;background:#1b2b45;color:#dbe7ff;margin:0 6px 6px 0}.step{font-size:.82rem;text-transform:uppercase;letter-spacing:.08em;color:#8eb3eb}.status{padding:10px 12px;border-radius:12px;background:#0b1728;border:1px solid #29405f;margin:8px 0}.ok{border-color:#34765b}.warn{border-color:#80652c}.watermark{opacity:.58;text-align:center;margin-top:20px;font-size:.85rem}.callout{border-left:4px solid #9fbfff;padding:12px 14px;background:#0b1728;border-radius:8px;margin-top:14px}
   </style>
 </head>
@@ -22,6 +22,7 @@
     <p class="tag">AI accelerates testing. Humans control quality decisions.</p>
     <p class="muted">A governed QA workspace for requirements analysis, test generation, AI-agent validation, evidence capture and approval-controlled actions.</p>
     <div class="callout"><strong>Steve demo path:</strong> Requirement → Test drafts → Agent validation → Evidence → Human approval gate.</div>
+    <a class="button primary" href="/firefighter.html">Open SAP GRC Firefighter Review Copilot</a>
   </section>
 
   <div class="grid">
@@ -53,6 +54,13 @@
       <button class="danger" id="blocked">Try without approval</button>
       <button class="success" id="approved">Approve as Faith</button>
       <div class="status"><strong>Design rule:</strong> AI may prepare. Humans approve consequential actions.</div>
+    </section>
+
+    <section class="card">
+      <div class="step">Proof point 5</div><h2>SAP GRC Firefighter control testing</h2>
+      <p class="muted">Test emergency privileged access end to end: reason, evidence, time window, activity scope, Controller review, SoD, audit trail and explicit human completion.</p>
+      <a class="button secondary" href="/firefighter.html">Launch Firefighter module</a>
+      <div class="status warn"><strong>Portfolio leverage:</strong> SAP GRC + software testing + privileged access + audit evidence + AI governance.</div>
     </section>
   </div>
 

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Palm92 Firefighter Review Copilot</title>
+  <style>
+    :root{font-family:Inter,system-ui,sans-serif;color:#0e1a2b;background:#f5f7fb;--navy:#0a1b33;--navy2:#132a4e;--line:#dbe3ef;--muted:#60718b;--amber:#b56a00;--red:#a92a2a;--green:#25734f}
+    *{box-sizing:border-box}body{margin:0;background:#f5f7fb}.top{background:linear-gradient(135deg,var(--navy),var(--navy2));color:#fff;padding:28px 18px}.wrap{max-width:1240px;margin:auto}.brand{display:flex;gap:10px;flex-wrap:wrap}.pill{border:1px solid #ffffff33;border-radius:999px;padding:6px 10px;font-size:.82rem;background:#ffffff12}.top h1{font-size:clamp(2rem,5vw,3.5rem);margin:14px 0 6px}.top p{max-width:850px;color:#d5e3f8;line-height:1.55}.nav{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}.nav a{color:#fff;text-decoration:none;border:1px solid #ffffff35;padding:9px 12px;border-radius:10px}.nav a:hover{background:#ffffff12}
+    main{max-width:1240px;margin:auto;padding:20px 18px 60px}.notice{background:#fff5df;border:1px solid #ebc979;color:#674207;padding:12px 14px;border-radius:12px;margin-bottom:18px}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;box-shadow:0 8px 28px #10233c0d}.metric{font-size:2rem;font-weight:800}.muted{color:var(--muted);line-height:1.5}.section-title{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:28px 0 12px}.section-title h2{margin:0}.layout{display:grid;grid-template-columns:minmax(300px,.85fr) minmax(0,1.6fr);gap:16px}@media(max-width:900px){.layout{grid-template-columns:1fr}}
+    select,textarea,input{width:100%;border:1px solid #cbd7e7;border-radius:10px;padding:10px;background:#fff;font:inherit}textarea{min-height:100px}button{border:0;border-radius:10px;padding:10px 13px;font-weight:750;cursor:pointer}.primary{background:var(--navy2);color:#fff}.secondary{background:#edf2f8;color:var(--navy)}.success{background:#e4f4eb;color:#14563a}.danger{background:#fdeaea;color:#842323}.amber{background:#fff1d8;color:#7d4c00}.row{display:flex;gap:8px;flex-wrap:wrap}.badge{display:inline-block;border-radius:999px;padding:5px 9px;font-size:.78rem;font-weight:800}.b-low{background:#e5f5ed;color:#17633f}.b-medium{background:#fff2d8;color:#7d4b00}.b-high{background:#fde8e8;color:#8e2525}.finding{border:1px solid var(--line);border-left:5px solid #c78b22;border-radius:12px;padding:13px;margin:10px 0}.finding.high,.finding.critical{border-left-color:#b83636}.finding h4{margin:0 0 6px}.finding p{margin:6px 0}.facts{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.fact{background:#f8fafc;border:1px solid #e5ebf3;padding:10px;border-radius:10px}.fact strong{display:block;font-size:.78rem;color:#66758b;text-transform:uppercase;letter-spacing:.04em}.timeline{border-left:2px solid #d6dfeb;margin-left:8px;padding-left:18px}.event{margin:0 0 16px}.event strong{display:block}.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;font-size:.92rem}.table th,.table td{padding:10px;border-bottom:1px solid #e5ebf3;text-align:left;vertical-align:top}.table th{background:#f8fafc}.code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;background:#f3f6fa;padding:2px 5px;border-radius:5px}.footer-note{text-align:center;color:#728198;margin-top:30px}.hidden{display:none}.callout{border-left:4px solid #254e83;background:#f0f5fb;padding:12px;border-radius:8px}.report{background:#fbfcfe;border:1px dashed #aebbd0;padding:16px;border-radius:12px}
+  </style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="brand"><span class="pill">Palm92 Intelligence</span><span class="pill">SAP GRC concept demo</span><span class="pill">Software Testing</span><span class="pill">Human-in-the-loop</span></div>
+  <h1>Palm92 Firefighter Review Copilot</h1>
+  <p>Independent educational portfolio demo for controlled emergency privileged access. The copilot explains findings and drafts questions. The human Controller makes the decision.</p>
+  <div class="nav"><a href="#dashboard">Dashboard</a><a href="#review">Controller Review</a><a href="#testing">Testing Lab</a><a href="#traceability">Traceability</a><a href="#architecture">Architecture</a><a href="#mcp">MCP</a><a href="#interview">Interview</a><a href="/">Main Test Copilot</a></div>
+</div></header>
+<main>
+  <div class="notice"><strong>Disclaimer:</strong> Independent educational portfolio demo. No live SAP connection. Synthetic data only. This project does not claim official SAP affiliation.</div>
+
+  <section id="dashboard">
+    <div class="section-title"><h2>Executive Dashboard</h2><button class="secondary" id="refresh">Refresh demo</button></div>
+    <div class="grid" id="metrics"></div>
+  </section>
+
+  <section id="review">
+    <div class="section-title"><h2>Controller Review Workspace</h2><span class="muted">Explainable findings, evidence and human decision</span></div>
+    <div class="layout">
+      <div class="card">
+        <label><strong>Choose synthetic session</strong></label>
+        <select id="sessionSelect"></select>
+        <div style="height:12px"></div>
+        <div id="sessionFacts" class="facts"></div>
+        <div style="height:14px"></div>
+        <div class="callout"><strong>Governance rule:</strong> this demo may triage and draft questions, but it cannot silently complete a review.</div>
+      </div>
+      <div class="card">
+        <div class="row" style="justify-content:space-between;align-items:center"><h3 style="margin:0">Control findings</h3><span id="attentionBadge" class="badge"></span></div>
+        <div id="findings"></div>
+        <h3>Controller action</h3>
+        <input id="actor" value="Priya Shah" placeholder="Controller name" />
+        <div style="height:8px"></div>
+        <textarea id="comment" placeholder="Controller rationale, evidence request or decision note"></textarea>
+        <div class="row"><button class="amber" data-action="request-information">Request information</button><button class="secondary" data-action="return">Return for clarification</button><button class="success" id="completeBtn">Complete review</button></div>
+        <div id="actionResult" class="muted" style="margin-top:10px"></div>
+      </div>
+    </div>
+    <div class="grid" style="margin-top:16px">
+      <div class="card"><h3>Session activity</h3><div id="activityTimeline" class="timeline"></div></div>
+      <div class="card"><h3>Audit timeline</h3><div id="auditTimeline" class="timeline"><div class="event muted">No controller actions recorded in this browser session yet.</div></div></div>
+    </div>
+  </section>
+
+  <section id="testing">
+    <div class="section-title"><h2>Testing Lab</h2><span class="muted">18 practical test cases</span></div>
+    <div class="card table-wrap"><table class="table"><thead><tr><th>ID</th><th>Requirement</th><th>Type</th><th>Scenario</th><th>Expected result</th><th>Status</th></tr></thead><tbody id="testRows"></tbody></table></div>
+  </section>
+
+  <section id="traceability">
+    <div class="section-title"><h2>Requirements & Traceability</h2><span class="muted">Requirement → control → rule → test</span></div>
+    <div class="card table-wrap"><table class="table"><thead><tr><th>Requirement</th><th>Control objective</th><th>Rule IDs</th><th>Test cases</th></tr></thead><tbody id="traceRows"></tbody></table></div>
+  </section>
+
+  <section id="architecture">
+    <div class="section-title"><h2>Architecture & Governance</h2></div>
+    <div class="grid">
+      <div class="card"><h3>Workflow</h3><p><strong>Firefighter Log → Rules / AI Triage → Findings → Controller Review → Human Decision → Audit Evidence</strong></p><p class="muted">Deterministic controls provide the baseline. AI can assist with summarisation and question drafting, but not replace the Controller's accountability.</p></div>
+      <div class="card"><h3>Governance principles</h3><p class="muted">Least privilege · temporary access · segregation of duties · explainability · evidence preservation · human oversight · data minimisation.</p><div class="callout"><strong>AI investigates. Humans decide.</strong></div></div>
+    </div>
+  </section>
+
+  <section id="mcp">
+    <div class="section-title"><h2>MCP / Automation Catalogue</h2><span class="muted">Future-facing tool design</span></div>
+    <div class="card table-wrap"><table class="table"><thead><tr><th>Tool</th><th>Mode</th><th>Human approval</th><th>Purpose</th></tr></thead><tbody id="mcpRows"></tbody></table></div>
+  </section>
+
+  <section id="interview">
+    <div class="section-title"><h2>Portfolio / Interview</h2></div>
+    <div class="grid">
+      <div class="card"><h3>20-second explanation</h3><p>Firefighter is controlled emergency privileged access. I would test the full lifecycle: reason and approval, time-bound access, activity logging, additional-activity justification, independent controller review, evidence and final audit trail.</p></div>
+      <div class="card"><h3>45-second project pitch</h3><p>I built a governed Firefighter Review Copilot that analyses synthetic emergency-access sessions with transparent rules, flags scope, timing, evidence and segregation-of-duties concerns, drafts controller questions, and then stops at a human approval gate. The same project includes 18 software tests and traceability from control objective to evidence, so it demonstrates SAP GRC understanding, testing discipline and AI governance together.</p></div>
+      <div class="card"><h3>Competency tags</h3><p><span class="pill" style="color:#17345d;border-color:#cbd7e7;background:#edf3fa">SAP GRC</span> <span class="pill" style="color:#17345d;border-color:#cbd7e7;background:#edf3fa">Emergency Access</span> <span class="pill" style="color:#17345d;border-color:#cbd7e7;background:#edf3fa">Privileged Access</span> <span class="pill" style="color:#17345d;border-color:#cbd7e7;background:#edf3fa">SoD</span> <span class="pill" style="color:#17345d;border-color:#cbd7e7;background:#edf3fa">Software Testing</span> <span class="pill" style="color:#17345d;border-color:#cbd7e7;background:#edf3fa">Audit Evidence</span> <span class="pill" style="color:#17345d;border-color:#cbd7e7;background:#edf3fa">AI Governance</span></p></div>
+    </div>
+    <div class="card" style="margin-top:16px"><h3>Controller Review Report</h3><div id="report" class="report"></div><div class="row" style="margin-top:10px"><button class="primary" id="printReport">Print / Save as PDF</button></div></div>
+  </section>
+
+  <p class="footer-note">Palm92 Intelligence · Firefighter Review Copilot · AI investigates. Humans decide.</p>
+</main>
+<script src="/firefighter.js"></script>
+</body>
+</html>
